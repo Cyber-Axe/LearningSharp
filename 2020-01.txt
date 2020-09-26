@@ -1,0 +1,84 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.StringTokenizer;
+
+public class Main01 {
+    public static void main(String[] args) throws IOException {
+        Main01 main = new Main01();
+        List<Point> Alist = new ArrayList<>();
+        List<Point> Blist = new ArrayList<>();
+        List<String> ans = new ArrayList<>();
+        int n = Reader.nextInt();
+        int m = Reader.nextInt();
+        for (int i = 0; i < n; i++) {
+            double x = Reader.nextDouble();
+            double y = Reader.nextDouble();
+            String di = Reader.next();
+            Point point = new Point(x,y,di);
+            if (di.equals("A")){
+                Alist.add(point);
+            }else if (di.equals("B")){
+                Blist.add(point);
+            }
+        }
+        for (int i = 0; i < m; i++) {
+            double x0 = Reader.nextDouble();
+            double x1 = Reader.nextDouble();
+            double x2 = Reader.nextDouble();
+            if (main.judge(Alist, Blist, x0, x1, x2)){
+                ans.add("Yes");
+            }else {
+                ans.add("No");
+            }
+        }
+        for (String res : ans) {
+            System.out.println(res);
+        }
+    }
+    public boolean judge(List<Point> list0, List<Point> list1, double x0, double x1, double x2){
+        for (Point point : list0){
+            for (Point point0 : list1) {
+                double del = point.y*x2 + x0 + x1*point.x;
+                double del0 = point0.y*x2 + x0 + x1*point0.x;
+                if (del*del0 > 0) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+}
+class Reader {
+    static StringTokenizer token =new StringTokenizer("");
+    static BufferedReader reader   =new BufferedReader (new InputStreamReader(System.in)) ;
+    static String nextLine() throws IOException {
+        return reader.readLine() ;
+    }
+    static  String next() throws IOException {
+        while(!token.hasMoreTokens()) {
+            token =new StringTokenizer(reader.readLine()) ;
+        }
+        return token.nextToken() ;
+    }
+    static int nextInt() throws IOException {
+        return Integer.parseInt(next()) ;
+    }
+    static double nextDouble() throws IOException {
+        return Double.parseDouble(next()) ;
+    }
+}
+
+class Point {
+    double x;
+    double y;
+    String is_above;
+
+    public Point(double x, double y, String di) {
+        this.x = x;
+        this.y = y;
+        this.is_above = di;
+    }
+}
